@@ -1,0 +1,28 @@
+{
+  "name": "catch-the-lion",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/geunseok11/catch-the-lion.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/geunseok11/catch-the-lion/issues"
+  },
+  "homepage": "https://github.com/geunseok11/catch-the-lion#readme",
+  "devDependencies": {
+    "parcel-bundler": "1.12.5",
+    "typescript": "4.4.2"
+  },
+  "dependencies": {
+    "bootstrap": "5.1.0"
+  }
+}
