@@ -1,5 +1,6 @@
 import { Board, DeadZone } from "./Board";
 import { PlayerType, Player } from "./Player";
+import "./Piece";
 
 export class Game {
   readonly board = new Board();
