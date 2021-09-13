@@ -53,9 +53,13 @@ export class Board {
       this._el.appendChild(rowEl);
 
       for (let col = 0; col < 3; col++) {
-        const piece = upperPlayer.getPieces().find(({ currentPosition }) => {
-          return currentPosition.col === col && currentPosition.row === row;
-        });
+        const piece =
+          upperPlayer.getPieces().find(({ currentPosition }) => {
+            return currentPosition.col === col && currentPosition.row === row;
+          }) ||
+          lowerPlayer.getPieces().find(({ currentPosition }) => {
+            return currentPosition.col === col && currentPosition.row === row;
+          });
         const cell = new Cell({ row, col }, piece);
         this.cells.push(cell);
         rowEl.appendChild(cell._el);
