@@ -1,57 +1,65 @@
-import { Cell, Position } from './Board';
-import { PlayerType } from './Player';
-import loinImage from './images/lion.png';
-import chickenImage from './images/chicken.png';
-import griffImage from './images/griff.png';
-import elophantImage from './images/elophant.png';
+import { Cell, Position } from "./Board";
+import { PlayerType } from "./Player";
+import loinImage from "./images/lion.png";
+import chickenImage from "./images/chicken.png";
+import griffImage from "./images/griff.png";
+import elophantImage from "./images/elophant.png";
 
-console.log(chickenImage)
+console.log(chickenImage);
 
 export class MoveResult {
-  constructor(private killedPiece: Piece){
-    getKilled(){
-      return this.killedPiece;
-    }
+  constructor(private killedPiece: Piece) {}
+  getKilled() {
+    return this.killedPiece;
   }
 }
 
 export interface Piece {
   ownerType: PlayerType;
-  currentPosition: Position
+  currentPosition: Position;
   move(from: Cell, to: Cell): MoveResult;
   render(): string;
 }
 
-abstract class DefaultPiece implements Piece{
-  constructor(public readonly ownerType: PlayerType, public currentPosition){
-
-  }
-  move(from: Cell, to: Cell): MoveResult{
-    if(!this.canMove(to.position)){
-      throw new Error('Method not implemented.');
+abstract class DefaultPiece implements Piece {
+  constructor(public readonly ownerType: PlayerType, public currentPosition) {}
+  move(from: Cell, to: Cell): MoveResult {
+    if (!this.canMove(to.position)) {
+      throw new Error("Method not implemented.");
     }
-    
-    const moveResult = new MoveResult((to.getPiece() != null) ? to.getPiece() : null)
-    to.put(this)
-    from.put(null)
-    this.currentPosition = to.position
-    return moveResult
+
+    const moveResult = new MoveResult(
+      to.getPiece() != null ? to.getPiece() : null
+    );
+    to.put(this);
+    from.put(null);
+    this.currentPosition = to.position;
+    return moveResult;
   }
-  
-  abstract canMove(position: Position):boolean
-  abstract render()
+
+  abstract canMove(position: Position): boolean;
+  abstract render();
 }
 
 export class Lion extends DefaultPiece {
   canMove(pos: Position) {
-    const canMove = (pos.row === this.currentPosition.row + 1 && pos.col === this.currentPosition.col)
-      || (pos.row === this.currentPosition.row - 1 && pos.col === this.currentPosition.col)
-      || (pos.col === this.currentPosition.col + 1 && pos.row === this.currentPosition.row)
-      || (pos.col === this.currentPosition.col - 1 && pos.row === this.currentPosition.row)
-      || (pos.row === this.currentPosition.row + 1 && pos.col === this.currentPosition.col + 1)
-      || (pos.row === this.currentPosition.row + 1 && pos.col === this.currentPosition.col - 1)
-      || (pos.row === this.currentPosition.row - 1 && pos.col === this.currentPosition.col + 1)
-      || (pos.row === this.currentPosition.row - 1 && pos.col === this.currentPosition.col - 1);
+    const canMove =
+      (pos.row === this.currentPosition.row + 1 &&
+        pos.col === this.currentPosition.col) ||
+      (pos.row === this.currentPosition.row - 1 &&
+        pos.col === this.currentPosition.col) ||
+      (pos.col === this.currentPosition.col + 1 &&
+        pos.row === this.currentPosition.row) ||
+      (pos.col === this.currentPosition.col - 1 &&
+        pos.row === this.currentPosition.row) ||
+      (pos.row === this.currentPosition.row + 1 &&
+        pos.col === this.currentPosition.col + 1) ||
+      (pos.row === this.currentPosition.row + 1 &&
+        pos.col === this.currentPosition.col - 1) ||
+      (pos.row === this.currentPosition.row - 1 &&
+        pos.col === this.currentPosition.col + 1) ||
+      (pos.row === this.currentPosition.row - 1 &&
+        pos.col === this.currentPosition.col - 1);
     return canMove;
   }
 
@@ -62,10 +70,16 @@ export class Lion extends DefaultPiece {
 
 export class Elephant extends DefaultPiece {
   canMove(pos: Position) {
-    return (pos.row === this.currentPosition.row + 1 && pos.col === this.currentPosition.col + 1)
-      || (pos.row === this.currentPosition.row + 1 && pos.col === this.currentPosition.col - 1)
-      || (pos.row === this.currentPosition.row - 1 && pos.col === this.currentPosition.col + 1)
-      || (pos.row === this.currentPosition.row - 1 && pos.col === this.currentPosition.col - 1);
+    return (
+      (pos.row === this.currentPosition.row + 1 &&
+        pos.col === this.currentPosition.col + 1) ||
+      (pos.row === this.currentPosition.row + 1 &&
+        pos.col === this.currentPosition.col - 1) ||
+      (pos.row === this.currentPosition.row - 1 &&
+        pos.col === this.currentPosition.col + 1) ||
+      (pos.row === this.currentPosition.row - 1 &&
+        pos.col === this.currentPosition.col - 1)
+    );
   }
 
   render(): string {
@@ -75,10 +89,16 @@ export class Elephant extends DefaultPiece {
 
 export class Griff extends DefaultPiece {
   canMove(pos: Position) {
-    return (pos.row === this.currentPosition.row + 1 && pos.col === this.currentPosition.col)
-      || (pos.row === this.currentPosition.row - 1 && pos.col === this.currentPosition.col)
-      || (pos.col === this.currentPosition.col + 1 && pos.row === this.currentPosition.row)
-      || (pos.col === this.currentPosition.col - 1 && pos.row === this.currentPosition.row);
+    return (
+      (pos.row === this.currentPosition.row + 1 &&
+        pos.col === this.currentPosition.col) ||
+      (pos.row === this.currentPosition.row - 1 &&
+        pos.col === this.currentPosition.col) ||
+      (pos.col === this.currentPosition.col + 1 &&
+        pos.row === this.currentPosition.row) ||
+      (pos.col === this.currentPosition.col - 1 &&
+        pos.row === this.currentPosition.row)
+    );
   }
 
   render(): string {
@@ -88,7 +108,11 @@ export class Griff extends DefaultPiece {
 
 export class Chick extends DefaultPiece {
   canMove(pos: Position) {
-    return this.currentPosition.row + ((this.ownerType == PlayerType.UPPER) ? +1 : -1) === pos.row;
+    return (
+      this.currentPosition.row +
+        (this.ownerType == PlayerType.UPPER ? +1 : -1) ===
+      pos.row
+    );
   }
 
   render(): string {
