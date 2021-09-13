@@ -12,7 +12,7 @@ export class Player {
   }
 
   constructor(public readonly type: PlayerType) {
-    if ((type = PlayerType.UPPER)) {
+    if (type == PlayerType.UPPER) {
       this.pieces = [
         new Griff(PlayerType.UPPER, { row: 0, col: 0 }),
         new Lion(PlayerType.UPPER, { row: 0, col: 1 }),
@@ -21,9 +21,9 @@ export class Player {
       ];
     } else {
       this.pieces = [
-        new Griff(PlayerType.LOWER, { row: 3, col: 0 }),
+        new Elephant(PlayerType.LOWER, { row: 3, col: 0 }),
         new Lion(PlayerType.LOWER, { row: 3, col: 1 }),
-        new Elephant(PlayerType.LOWER, { row: 3, col: 2 }),
+        new Griff(PlayerType.LOWER, { row: 3, col: 2 }),
         new Chick(PlayerType.LOWER, { row: 2, col: 1 }),
       ];
     }
